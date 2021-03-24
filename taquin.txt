@@ -1,0 +1,17 @@
+# This puzzle is solvable
+4
+13 # again a comment
+10
+ 8
+ 0
+12
+11
+ 3
+ 5
+ 1
+ 6
+ 9
+ 4
+ 2
+15
+14 7
