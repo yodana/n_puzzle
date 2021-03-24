@@ -1,11 +1,11 @@
 import sys
 
 class Game:
-    def __init__(self, size, file):
+    def __init__(self, file):
         self.file = file;
-        self.taquin = self.create_taquin();
+        self.taquin = self.__create_taquin();
 
-    def create_taquin(self):
+    def __create_taquin(self):
         ZONE = "";
         LIST = [];
         for line in self.file.readlines():
@@ -30,7 +30,7 @@ if (len(sys.argv) < 2):
     sys.exit(1);
 
 f = open(sys.argv[1], "r");
-game = Game(4, f);
-
+game = Game(f);
+print(game.taquin);
 for arg in sys.argv:
     print(arg);
