@@ -19,6 +19,9 @@ class Game:
         self.size = int(LIST[0]);
         taquin = [[0] * self.size for i in range(self.size)];
         k = 1;
+        if (len(LIST) - 1 != self.size * self.size):
+            print("La taille du taquin n'est pas de", self.size);
+            sys.exit(1);
         for i in range(0, self.size):
             for j in range(0, self.size):
                 taquin[i][j] = LIST[k];
