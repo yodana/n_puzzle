@@ -20,11 +20,13 @@ def main():
 	if not getattr(args, 'file'):
 		error('file expected')
 	init_board = init_Board(args.file);
+	board = deepcopy(init_board.board);
 	scores = [0, 0, 0 , 0];
 	closed_list = [];
 	#while (min([i for i in scores if i >= 0]) != 0):
 	i = 0;
 	back_movements = [""];
+	solution = [];
 	stop = 0;
 	while (stop != 1):
 		scores = [];
@@ -47,12 +49,14 @@ def main():
 		if (positive_score == True):
 			i_mov = scores.index(min([j for j in scores if j >= 0]));
 			init_board.test_move(movements[i_mov], False);
+			solution.append(movements[i_mov]);
 			back_movements.append(f_back_movements[i_mov]);
 			stop = min([j for j in scores if j > 0])
 			i = i + 1;
 		else:
 			if len(back_movements) > 1:
 				init_board.test_move(back_movements[-1], False);
+				solution.pop();
 				back_movements.pop();
 				i = i - 1;
 			else:
@@ -63,9 +67,9 @@ def main():
 	#for move in movements:
 	'''if board:
 		solution = findSolution(board)
-		showSolution(solution)
-		if args.view:
-			TaquinGame(board, solution)'''
+		showSolution(solution)'''
+	if args.view:
+		TaquinGame(board, solution)
 
 if __name__ == "__main__":
 	main()
