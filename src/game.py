@@ -1,10 +1,9 @@
 import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
-import pygame, time
+import pygame
 
 class TaquinGame(object):
 	def __init__(self, taquin, moves):
-		#setup
 		self.launched = False
 		self.taquin = taquin
 		self.size = len(taquin)
@@ -13,9 +12,7 @@ class TaquinGame(object):
 			'x': [taquin.index(line) for line in taquin if 0 in line][0],
 			'y': [line.index(0) for line in taquin if 0 in line][0]
 		}
-
 		self.setupPygame()
-		#launch game
 		self.gameLoop()
 
 	def setupPygame(self):
@@ -26,17 +23,16 @@ class TaquinGame(object):
 		self.screen = pygame.display.set_mode((self.windowsSize, self.windowsSize))
 		self.font = pygame.font.SysFont('Comic Sans MS', 30)
 		
-	#return current possibles moves according to the empty case position
 	def getLegalMoves(self):
 		ret = []
 		if self.emptyCaseCoor['x'] != 0:
-			ret.append('down')
+			ret.append('d')
 		if self.emptyCaseCoor['x'] != self.size - 1: 
-			ret.append('up')
+			ret.append('u')
 		if self.emptyCaseCoor['y'] != 0: 
-			ret.append('right')
+			ret.append('r')
 		if self.emptyCaseCoor['y'] != self.size - 1: 
-			ret.append('left')
+			ret.append('l')
 		return ret
 
 	def moveUp(self):
@@ -79,20 +75,18 @@ class TaquinGame(object):
 		self.emptyCaseCoor['y'] += 1
 		self.taquin[self.emptyCaseCoor['x']][self.emptyCaseCoor['y']] = 0
 
-	#Take a direction as argument (up, down, left, right) and handle this move
 	def applyMove(self, move):
 		if move in self.getLegalMoves():
-			if move == 'up': 
+			if move == 'u': 
 				self.moveUp()
-			if move == 'down': 
+			if move == 'd': 
 				self.moveDown()
-			if move == 'left': 
+			if move == 'l': 
 				self.moveLeft()
-			if move == 'right': 
+			if move == 'r': 
 				self.moveRight()
 			self.showTaquin()
 	
-	#redraw the game board and update rects
 	def showTaquin(self):
 		self.tuiles = []
 		for i in range(self.size):
@@ -105,28 +99,24 @@ class TaquinGame(object):
 			self.tuiles.append(rectsLine)
 		pygame.display.update()
 			
-
 	def gameLoop(self):
 		self.currentMoveIndex = 0
 		self.play = True
 		self.launched = True
 		self.showTaquin()
-		for move in self.moves:
-			time.sleep(0.2)
-			self.applyMove(move)
+		if self.moves:
+			for move in self.moves:
+				self.applyMove(move)
 		while self.launched:
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					self.launched = False
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_DOWN:
-						self.applyMove('down')
+						self.applyMove('d')
 					if event.key == pygame.K_UP:
-					    self.applyMove('up')	 
+					    self.applyMove('u')	 
 					if event.key == pygame.K_LEFT:
-					    self.applyMove('left')
+					    self.applyMove('l')
 					if event.key == pygame.K_RIGHT:
-					    self.applyMove('right')
-
-if __name__ == "__main__":
-    TaquinGame([[2,5,3],[8,7,4],[1,6,0]], ['down','left','up'])
+					    self.applyMove('r')
